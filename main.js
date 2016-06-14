@@ -72,7 +72,8 @@ function getPageOfResults(pageToGet,searchTerm) {
 
 			if( data.Response != "False"){
 				var $resultsArea = $('#results-area');
-				var resultsToAppend = [];
+				var $resultsToAppend = [];
+				var pageArray = []; 
 
 				for (var i = 0; i < data.Search.length; i++){
 					var oldTitle = data.Search[i].Title;
@@ -87,15 +88,16 @@ function getPageOfResults(pageToGet,searchTerm) {
 							var starring = data.Starring;
 							var resultToAdd = new Result(type, title, year, genre, plot, imdb, starring);
 
-							resultsToAppend.push(resultToAdd.$element);
+							$resultsToAppend.push(resultToAdd.$element);
+							pageArray.push(resultToAdd);
 
-							if (resultsToAppend.length >= 10){
+							if ($resultsToAppend.length >= 10){
 								PAGES_ARRAY = [];
 								$resultsArea.empty();
-								$resultsArea.append(...resultsToAppend);
+								$resultsArea.append(...$resultsToAppend);
 								$('#search-button').text('Search!');
 								if (!PAGES_ARRAY[pageToGet - 1])
-									PAGES_ARRAY[pageToGet - 1] = resultsToAppend;
+									PAGES_ARRAY[pageToGet - 1] = pageArray;
 							}
 						},
 					});
