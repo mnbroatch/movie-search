@@ -23,27 +23,31 @@ $(document).ready( function(){
 });
 
 
-function Result(type, title, year, genre, plot, imdb, starring){
-	this.type = type;
-	this.title = title;
-	this.year = year;
-	this.genre = genre;
-	this.plot = plot;
-	this.starring = starring;
-	this.imdb = "http://www.imdb.com/title/" + imdb;
-}
-Object.defineProperty(Result.prototype,'$element', {get: get$element });
+class Result {
+	constructor(type, title, year, genre, plot, imdb, starring, img){
+		this.type = type;
+		this.title = title;
+		this.year = year;
+		this.genre = genre;
+		this.plot = plot;
+		this.starring = starring;
+		this.imdb = "http://www.imdb.com/title/" + imdb;
+		this.img = img;
+	}
 
-function get$element (){					
-	var $resultElementToAdd = $('#result-template').clone();
-	$resultElementToAdd.removeAttr('id','result-template');
-	$resultElementToAdd.find('.title').text(this.title);
-	$resultElementToAdd.find('.title').attr('href',this.imdb);
-	$resultElementToAdd.find('.year').text("(" + this.year + ")");
-	$resultElementToAdd.find('.starring').text("Starring " + this.starring);
-	$resultElementToAdd.find('.plot').text(this.plot);
-	$resultElementToAdd.find('.genre').text(this.genre);
-	return $resultElementToAdd;
+	get $element (){					
+		var $resultElementToAdd = $('#result-template').clone();
+		$resultElementToAdd.removeAttr('id','result-template');
+		$resultElementToAdd.find('.title').text(this.title);
+		$resultElementToAdd.find('.title').attr('href',this.imdb);
+		$resultElementToAdd.find('.year').text("(" + this.year + ")");
+		$resultElementToAdd.find('.starring').text("Starring " + this.starring);
+		$resultElementToAdd.find('.plot').text(this.plot);
+		$resultElementToAdd.find('.genre').text(this.genre);
+		if (this.img)
+			$resultElementToAdd.find('img').attr('src',this.img);
+		return $resultElementToAdd;
+	}
 }
 
 
@@ -83,19 +87,26 @@ function getPageOfResults(pageToGet,searchTerm) {
 							var plot = data.Plot;
 							var type = data.Type;
 							var starring = data.Actors;
-							var resultToAdd = new Result(type, title, year, genre, plot, imdb, starring);
 
-							$resultsToAppend.push(resultToAdd.$element);
-							pageArray.push(resultToAdd);
+							$.ajax("https://api.themoviedb.org/3/find/"+ imdb + "?external_source=imdb_id&api_key=d30a3154577a074b866f6a5123696362", {
+								success:function(res){
 
-							if ($resultsToAppend.length >= 10){
-								PAGES_ARRAY = [];
-								$resultsArea.empty();
-								$resultsArea.append(...$resultsToAppend);
-								$('#search-button').text('Search!');
-								if (!PAGES_ARRAY[pageToGet - 1])
-									PAGES_ARRAY[pageToGet - 1] = pageArray;
-							}
+									if(res.movie_results[0])
+										var img = "https://image.tmdb.org/t/p/original/" + res.movie_results[0].poster_path;
+									console.log(img);
+									var resultToAdd = new Result(type, title, year, genre, plot, imdb, starring, img);
+									$resultsToAppend.push(resultToAdd.$element);
+									pageArray.push(resultToAdd);
+									if ($resultsToAppend.length >= 10){
+										PAGES_ARRAY = [];
+										$resultsArea.empty();
+										$resultsArea.append(...$resultsToAppend);
+										$('#search-button').text('Search!');
+										if (!PAGES_ARRAY[pageToGet - 1])
+											PAGES_ARRAY[pageToGet - 1] = pageArray;
+									}
+								}
+							});
 						},
 					});
 				};
