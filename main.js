@@ -71,8 +71,11 @@ class Result {
 		$resultElementToAdd.find('.starring').text("Starring " + this.starring);
 		$resultElementToAdd.find('.plot').text(this.plot);
 		$resultElementToAdd.find('.genre').text(this.genre);
+		console.log("thisimg" + this.img);
 		if (this.img)
 			$resultElementToAdd.find('img').attr('src',this.img);
+			else
+			$resultElementToAdd.find('img').attr('src',"");
 		return $resultElementToAdd;
 	}
 }
@@ -103,7 +106,6 @@ function getPageOfResults(pageToGet,searchTerm) {
 				var $resultsToAppend = [];
 				var pageArray = []; 
 
-				// Bill & Ted's Bogus Journey
 				for (var i = 0; i < searchResults.Search.length; i++){
 					var oldTitle = encodeURIComponent((searchResults.Search[i].Title)).replace(/%20/g,"+");
 					$.ajax("http://www.omdbapi.com/?t=" + oldTitle, {
@@ -115,13 +117,13 @@ function getPageOfResults(pageToGet,searchTerm) {
 							var plot = data.Plot;
 							var type = data.Type;
 							var starring = data.Actors;
+							var img = false;
 
 							$.ajax("https://api.themoviedb.org/3/find/"+ imdb + "?external_source=imdb_id&api_key=d30a3154577a074b866f6a5123696362", {
 								complete:function(res){
-
-									if(res.responseJSON.movie_results[0] && res.responseJSON.movie_results[0].poster_path){
-										var img = "https://image.tmdb.org/t/p/original/" + res.responseJSON.movie_results[0].poster_path;
-									}
+									if(res.responseJSON.movie_results.length){
+										img = "https://image.tmdb.org/t/p/original/" + res.responseJSON.movie_results[0].poster_path;
+									} else img = 0;
 									var resultToAdd = new Result(type, title, year, genre, plot, imdb, starring, img);
 									$resultsToAppend.push(resultToAdd.$element);
 									pageArray.push(resultToAdd);
