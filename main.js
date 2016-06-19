@@ -1,5 +1,3 @@
-"use strict";
-
 const URL_START = "http://www.omdbapi.com/?s=";
 
 var CURRENT_PAGE = 1;
