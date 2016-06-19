@@ -1,3 +1,7 @@
+nav {
+	display:none;
+}
+
 html {
 	overflow-y:scroll;
 }
@@ -40,7 +44,7 @@ select {
 	color:orange;
 }
 
-#result-template {
+.template {
 	display:none;
 }
 

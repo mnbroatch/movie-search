@@ -15,11 +15,10 @@
 			<div class="row">
 				<div class="col-xs-12 text-center">
 					<div id="search-area" class="well">
-					<div id="no-results-alert">No results found</div>
+						<div id="no-results-alert">No results found</div>
 						<form id="search-form">
 							<input id="title-field" type="text" name="title" placeholder="Title (required)" required>
 							<input id="year-field" type="number" name="year" min=1900 max=2020 placeholder="Year">
-
 							<select id="type-field" name="type">
 								<option class="type-option" value="">Any</option>
 								<option class="type-option" value="movie">Movie</option>
@@ -33,34 +32,49 @@
 			</div>
 
 
-
-
 			<div class="row">
 				<div id="results-area" class="col-xs-12">
 
 				</div>
 			</div>
 
+			<nav>
+			<ul class="pagination">
+				<li>
+				<a href="#" aria-label="Previous" class="previous-button">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+				</li>
+				<li>
+				<a href="#" aria-label="Next" class="next-button">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+				</li>
+			</ul>
+			</nav>
 
-					<div id="result-template" class="panel panel-primary">
-						<div class="panel-heading">
-							<h3 class="panel-title"><a href="link.link" class="title">Movie Title</a></h3><span class="year"></span>
-						</div>		
-						<div class="row panel-body ">
-							<div class="col-xs-2">
-								<img src="" class="poster" alt="No poster found!" height=100 />
-							</div>
-							<div class="col-xs-2">
-								<span class="starring">stars go here</span>
-							</div>
-							<div class="col-xs-6">
-								<span class="plot"></span>
-							</div>
-							<div class="cox-xs-2">
-								<span class="genre"></span>
-							</div>
-						</div>
+			<li class="template"><a class="number-button" href="#">1</a></li>
+
+
+			<div id="result-template" class="panel template panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title"><a href="link.link" class="title">Movie Title</a></h3><span class="year"></span>
+				</div>		
+				<div class="row panel-body ">
+					<div class="col-xs-2">
+						<img src="" class="poster" alt="No poster found!" height=100 />
 					</div>
+					<div class="col-xs-2">
+						<span class="starring">stars go here</span>
+					</div>
+					<div class="col-xs-6">
+						<span class="plot"></span>
+					</div>
+					<div class="cox-xs-2">
+						<span class="genre"></span>
+					</div>
+				</div>
+			</div>
 
 
 
